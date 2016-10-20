@@ -28,15 +28,6 @@ module JenkinsPipelineBuilder
       @logger = @client.logger
     end
 
-    def load_file(path)
-      hash = if path.ends_with? 'json'
-               JSON.parse(IO.read(path))
-             else
-               YAML.load_file(path)
-             end
-      create(hash[0].deep_symbolize_keys!)
-    end
-
     def create(params)
       success, payload = prom_to_xml(params)
       return success, payload unless success
@@ -58,11 +49,12 @@ module JenkinsPipelineBuilder
     end
 
     def local_output(xml)
-      logger.info 'Will create promotion'
-      logger.info xml.to_s if @debug
+      JenkinsPipelineBuilder.logger.info 'Will create promotion'
+      JenkinsPipelineBuilder.logger.info xml.to_s if @debug
       xml.to_s if @debug
       FileUtils.mkdir_p(out_dir) unless File.exist?(out_dir)
       File.open("#{out_dir}/promotion_debug.xml", 'w') { |f| f.write xml }
+      xml
     end
 
     def out_dir

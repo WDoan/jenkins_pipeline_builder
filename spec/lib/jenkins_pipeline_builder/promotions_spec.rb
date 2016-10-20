@@ -23,14 +23,6 @@ describe JenkinsPipelineBuilder::Promotions do
     )
   end
 
-  let(:path) { File.expand_path('../fixtures/promotions_test/', __FILE__) }
-  describe '#load_file' do
-    it 'loads the sample promotion file' do
-      expect(@promotions).to receive(:create).exactly(1).times
-      @promotions.load_file("#{path}/sample_promotion.yaml")
-    end
-  end
-
   describe '#create' do
     before :each do
       allow(JenkinsPipelineBuilder.client).to receive(:plugin).and_return double(
