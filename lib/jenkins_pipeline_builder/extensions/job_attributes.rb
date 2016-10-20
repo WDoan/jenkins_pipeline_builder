@@ -65,6 +65,51 @@ job_attribute do
 end
 
 job_attribute do
+  name :block_when_downstream_building
+  plugin_id 'builtin'
+  description 'Prevents new builds from being executed until the downstream jobs have finished.'
+
+  xml path: '/' do |is_enabled|
+    blockBuildWhenDownstreamBuilding is_enabled
+  end
+end
+
+job_attribute do
+  name :block_when_upstream_building
+  plugin_id 'builtin'
+  description 'Prevents new builds from being executed until the upstream jobs have finished.'
+
+  xml path: '/' do |is_enabled|
+    blockBuildWhenUpstreamBuilding is_enabled
+  end
+end
+
+job_attribute do
+  name :is_visible
+  plugin_id 'builtin'
+  # TODO: Verify that this description is actually what this does
+  description 'Set a promotion process to be visible in the UI'
+
+  xml path: '/' do |is_enabled|
+    isVisible if is_enabled
+  end
+end
+
+job_attribute do
+  name :promotion_icon
+  plugin_id 'builtin'
+  # TODO: Verify that this description is actually what this does
+  description 'Set a promotion process to be visible in the UI'
+
+  # Should be one main color %[gold silver white blue green orange purple red]
+  # With an optional fill color "e" for empty "w" for white
+  # e.g. "gold" or "gold-w"
+  xml path: '/' do |icon_name|
+    icon "star-#{icon_name}"
+  end
+end
+
+job_attribute do
   name :scm_params
   plugin_id 'git'
   description 'NOTE: This only supports git currently, the following is the description for the git plugin.
