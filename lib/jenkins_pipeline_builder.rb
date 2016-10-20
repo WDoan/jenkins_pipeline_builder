@@ -33,6 +33,7 @@ require 'jenkins_pipeline_builder/pull_request_generator'
 require 'jenkins_pipeline_builder/view'
 require 'jenkins_pipeline_builder/job_collection'
 require 'jenkins_pipeline_builder/job'
+require 'jenkins_pipeline_builder/promotions'
 require 'jenkins_pipeline_builder/remote_dependencies'
 require 'jenkins_pipeline_builder/generator'
 
