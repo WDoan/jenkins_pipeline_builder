@@ -65,9 +65,8 @@ module JenkinsPipelineBuilder
 
       extension = versions[highest_allowed_version]
 
-      unless extension
-        raise "Can't find version of #{name} lte #{installed_version}, available versions: #{versions.keys.map(&:to_s)}"
-      end
+      raise %(Can't find version of #{name} lte #{installed_version}.
+        Available versions: #{versions.keys.map(&:to_s)}) unless extension
       extension
     end
 
@@ -79,7 +78,7 @@ module JenkinsPipelineBuilder
         mismatch << "The values for #{method_name} do not match '#{val1}' : '#{val2}'" unless val1 == val2
       end
       mismatch.each do |error|
-        puts error
+        logger.error error
       end
       raise 'Values did not match, cannot merge extension sets' if mismatch.any?
 
@@ -129,8 +128,8 @@ module JenkinsPipelineBuilder
       valid = errors.empty?
       unless valid
         name ||= 'A plugin with no name provided'
-        puts "Encountered errors while registering #{name}"
-        puts errors.map { |k, v| "#{k}: #{v}" }.join(', ')
+        logger.error "Encountered errors while registering #{name}"
+        logger.error errors.map { |k, v| "#{k}: #{v}" }.join(', ')
       end
       valid
     end
@@ -154,6 +153,10 @@ module JenkinsPipelineBuilder
 
     private
 
+    def logger
+      JenkinsPipelineBuilder.logger
+    end
+
     def highest_allowed_version
       ordered_version_list.each do |version|
         return version if version <= installed_version
@@ -173,7 +176,8 @@ module JenkinsPipelineBuilder
     end
 
     def deprecation_warning(name, block)
-      puts "WARNING: #{name} set the version in the #{block} block, this is deprecated. Please use a version block."
+      logger.warn %(WARNING: #{name} set the version in the #{block} block, this is deprecated.
+      Please use a version block.)
     end
   end
 end
