@@ -148,7 +148,9 @@ describe 'job_attributes' do
     it 'sets blockBuildWhenDownstreamBuilding' do
       params = { block_when_downstream_building: 'true' }
 
-      builder = Nokogiri::XML::Builder.new { |xml| xml }
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.send('hudson.plugins.promoted__builds.PromotionProcess', 'plugin' => 'promoted-builds@2.27')
+      end
       @n_xml = builder.doc
 
       JenkinsPipelineBuilder.registry.traverse_registry_path('job', params, @n_xml)
@@ -162,7 +164,9 @@ describe 'job_attributes' do
     it 'sets blockBuildWhenUpstreamBuilding' do
       params = { block_when_upstream_building: 'true' }
 
-      builder = Nokogiri::XML::Builder.new { |xml| xml }
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.send('hudson.plugins.promoted__builds.PromotionProcess', 'plugin' => 'promoted-builds@2.27')
+      end
       @n_xml = builder.doc
 
       JenkinsPipelineBuilder.registry.traverse_registry_path('job', params, @n_xml)
@@ -176,7 +180,9 @@ describe 'job_attributes' do
     it 'sets isVisible' do
       params = { is_visible: 'true' }
 
-      builder = Nokogiri::XML::Builder.new { |xml| xml }
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.send('hudson.plugins.promoted__builds.PromotionProcess', 'plugin' => 'promoted-builds@2.27')
+      end
       @n_xml = builder.doc
 
       JenkinsPipelineBuilder.registry.traverse_registry_path('job', params, @n_xml)
@@ -185,11 +191,13 @@ describe 'job_attributes' do
     end
   end
 
-  context 'promotio_icon' do
+  context 'promotion_icon' do
     it 'sets the promotion_icon' do
       params = { promotion_icon: 'gold-e' }
 
-      builder = Nokogiri::XML::Builder.new { |xml| xml }
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.send('hudson.plugins.promoted__builds.PromotionProcess', 'plugin' => 'promoted-builds@2.27')
+      end
       @n_xml = builder.doc
 
       JenkinsPipelineBuilder.registry.traverse_registry_path('job', params, @n_xml)

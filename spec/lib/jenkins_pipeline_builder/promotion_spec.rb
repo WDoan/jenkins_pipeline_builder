@@ -33,24 +33,25 @@ describe JenkinsPipelineBuilder::Promotion do
     end
 
     it 'generates correct xml given parameters' do
-      params =
-        { conditions: [{ manual:
-                       { users: 'authorized' } },
-                       { self_promotion:
-                       { even_if_unstable: true } },
-                       { parameterized_self_promotion:
-                       { parameter_name: 'SOME_ENV_VAR', parameter_value: true, even_if_unstable: true } },
-                       { downstream_pass:
-                       { jobs: 'SamplePipeline-10-Commit', even_if_unstable: true } },
-                       { upstream_promotion:
-                       { promotion_name: 'SamplePipeline Staging Promotion' } }],
-          build_steps: [{ triggered_job:
-                        { name: 'SamplePipeline-30-Release', block_condition:
-                        { build_step_failure_threshold: 'FAILURE', failure_threshold: 'FAILURE',
-                          unstable_threshold: 'UNSTABLE' } } },
-                        { keep_builds_forever: { value: true } }] }
+      params = {:name=>"SamplePipeline Stage Promotion",
+                 :promotion_description=>"Describe the promotion process in play",
+                 :block_when_downstream_building=>false,
+                 :block_when_upstream_building=>false,
+                 :icon=>"Gold star",
+                 :conditions=>
+      [{:manual=>{:users=>"authorized"}},
+       {:self_promotion=>{:even_if_unstable=>true}},
+       {:parameterized_self_promotion=>{:parameter_name=>"SOME_ENV_VAR", :parameter_value=>true, :even_if_unstable=>true}},
+       {:downstream_pass=>{:jobs=>"SamplePipeline-10-Commit", :even_if_unstable=>true}},
+       {:upstream_promotion=>{:promotion_name=>"SamplePipeline Staging Promotion"}}],
+      :build_steps=>
+      [{:triggered_job=>
+        {:name=>"SamplePipeline-30-Release",
+         :block_condition=>{:build_step_failure_threshold=>"FAILURE", :failure_threshold=>"FAILURE", :unstable_threshold=>"UNSTABLE"},
+         :build_parameters=>{:current=>true}}},
+      {:keep_builds_forever=>{:value=>true}}]}
 
-      @n_xml = @promotions.create(params)
+      @n_xml = @promotions.create(params, 'Random associated job name')
 
       expect(@n_xml).to include 'conditions'
       expect(@n_xml).to include 'buildSteps'
@@ -74,7 +75,7 @@ describe JenkinsPipelineBuilder::Promotion do
 
     it 'fails if prom_to_xml fails' do
       expect(@promotions).to receive(:prom_to_xml).ordered.and_return [false, 'FAILURE']
-      expect(@promotions.create('')).to eq [false, 'FAILURE']
+      expect(@promotions.create('', '')).to eq [false, 'FAILURE']
     end
   end
 end

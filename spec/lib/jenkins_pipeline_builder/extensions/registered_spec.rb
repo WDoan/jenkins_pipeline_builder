@@ -67,6 +67,7 @@ JOB_ATTRIBUTES = {
   promoted_builds: ['0'],
   scm_params: ['0', '2.0'],
   throttle: ['0'],
+  promotion_description: ['0'],
   block_when_downstream_building: ['0'],
   block_when_upstream_building: ['0'],
   is_visible: ['0'],
