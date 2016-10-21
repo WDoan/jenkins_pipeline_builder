@@ -1,6 +1,6 @@
 require File.expand_path('../spec_helper', __FILE__)
 
-describe JenkinsPipelineBuilder::Promotions do
+describe JenkinsPipelineBuilder::Promotion do
   before :all do
     JenkinsPipelineBuilder.credentials = {
       server_ip: '127.0.0.1',
@@ -10,7 +10,7 @@ describe JenkinsPipelineBuilder::Promotions do
       log_location: '/dev/null'
     }
     generator = JenkinsPipelineBuilder.generator
-    @promotions = JenkinsPipelineBuilder::Promotions.new(generator)
+    @promotions = JenkinsPipelineBuilder::Promotion.new(generator)
   end
 
   before :each do

@@ -19,21 +19,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-require 'pry'
+
 module JenkinsPipelineBuilder
-  class Promotions
+  class Promotion
     def initialize(generator)
       @generator = generator
       @client = generator.client
       @logger = @client.logger
     end
 
-    def create(params)
+    def create(params, job_name)
       success, payload = prom_to_xml(params)
       return success, payload unless success
       xml = payload
       return local_output(xml) if JenkinsPipelineBuilder.debug || JenkinsPipelineBuilder.file_mode
-      xml
+
+      # promotion_path += "/view/#{params[:name]}/configSubmit"
+      #
+      # @client.api_post_request(view_path, post_params(params))
     end
 
     def prom_to_xml(params)
