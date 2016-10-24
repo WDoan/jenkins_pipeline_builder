@@ -34,9 +34,13 @@ module JenkinsPipelineBuilder
       xml = payload
       return local_output(xml) if JenkinsPipelineBuilder.debug || JenkinsPipelineBuilder.file_mode
 
-      # promotion_path += "/view/#{params[:name]}/configSubmit"
-      #
-      # @client.api_post_request(view_path, post_params(params))
+      processExists = @client.get_config(get_process_path(job_name, process_name))
+
+      if processExists == "200"
+        @client.api_post_request(init_process_path(job_name, process_name), xml)
+      else
+        @client.api_post_request(set_process_path(job_name, process_name), xml)
+      end
     end
 
     def prom_to_xml(params)
@@ -62,6 +66,20 @@ module JenkinsPipelineBuilder
 
     def out_dir
       'out/xml'
+    end
+
+    private
+
+    def init_process_path job_name, process_name
+      "/job/#{URI.encode job_name}/promotion/process/#{URI.encode process_name}"
+    end
+
+    def set_process_path job_name, process_name
+      "/job/#{URI.encode job_name}/promotion/process/#{URI.encode process_name}/config.xml"
+    end
+
+    def get_process_path job_name, process_name
+      "/job/#{URI.encode job_name}/promotion/process/#{URI.encode process_name}"
     end
   end
 end
