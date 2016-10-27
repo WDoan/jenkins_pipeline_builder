@@ -85,7 +85,7 @@ job_attribute do
   jenkins_name 'Description'
   announced false
 
-  before do |param|
+  before do |_param|
     xpath('//project/description').remove
   end
 

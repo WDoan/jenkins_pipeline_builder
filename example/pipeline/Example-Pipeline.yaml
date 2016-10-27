@@ -16,12 +16,12 @@
                 Acceptance:
                     jobs:
                         - name: '{{name}}-Acceptance'
-                    continue_condiction: SUCCESSFUL
+                    continue_condition: SUCCESSFUL
                 Upgrade:
                     jobs:
                         - name: '{{name}}-Upgrade'
-                    continue_condiction: SUCCESSFUL
+                    continue_condition: SUCCESSFUL
                 Release:
                     jobs:
                         - name: '{{name}}-Release'
-                    continue_condiction: SUCCESSFUL
+                    continue_condition: SUCCESSFUL

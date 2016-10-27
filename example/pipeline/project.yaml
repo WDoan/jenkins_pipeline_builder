@@ -26,4 +26,7 @@
         - '{{name}}-Release'
     promotions:
         - '01. Stage Promotion'
+<<<<<<< HEAD
         - '02. Prod/SCA Promotion'
+=======
+>>>>>>> ff476a8cc81b701bb30a6759c1c5ab3a02343344

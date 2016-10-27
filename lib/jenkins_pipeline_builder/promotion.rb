@@ -34,13 +34,10 @@ module JenkinsPipelineBuilder
       xml = payload
       return local_output(xml) if JenkinsPipelineBuilder.debug || JenkinsPipelineBuilder.file_mode
 
-      processExists = @client.get_config(get_process_path(job_name, process_name))
-
-      if processExists == "200"
-        @client.api_post_request(init_process_path(job_name, process_name), xml)
-      else
-        @client.api_post_request(set_process_path(job_name, process_name), xml)
-      end
+      @client.get_config(get_process_path(job_name, params[:name]))
+      @client.post_config(set_process_path(job_name, params[:name]), xml)
+    rescue JenkinsApi::Exceptions::NotFound
+      @client.post_config(init_process_path(job_name, params[:name]), xml)
     end
 
     def prom_to_xml(params)
@@ -70,15 +67,15 @@ module JenkinsPipelineBuilder
 
     private
 
-    def init_process_path job_name, process_name
-      "/job/#{URI.encode job_name}/promotion/process/#{URI.encode process_name}"
+    def init_process_path(job_name, process_name)
+      "/job/#{URI.encode job_name}/promotion/createProcess?name=#{URI.encode process_name}"
     end
 
-    def set_process_path job_name, process_name
+    def set_process_path(job_name, process_name)
       "/job/#{URI.encode job_name}/promotion/process/#{URI.encode process_name}/config.xml"
     end
 
-    def get_process_path job_name, process_name
+    def get_process_path(job_name, process_name)
       "/job/#{URI.encode job_name}/promotion/process/#{URI.encode process_name}"
     end
   end

@@ -191,10 +191,15 @@ module JenkinsPipelineBuilder
       logger.info 'successfully resolved project'
       compiled_project = payload
 
-      errors = publish_jobs(compiled_project[:value][:jobs]) if compiled_project[:value][:jobs]
+      errors = publish_jobs(compiled_project[:value][:jobs])
 
-      publish_views(compiled_project[:value][:views]) if compiled_project[:value][:views]
-      publish_promotions(compiled_project[:value][:promotions], compiled_project[:value][:jobs]) if compiled_project[:value][:promotions]
+      if compiled_project[:value][:views]
+        publish_views(compiled_project[:value][:views])
+      end
+
+      if compiled_project[:value][:promotions]
+        publish_promotions(compiled_project[:value][:promotions], compiled_project[:value][:jobs])
+      end
       errors
     end
 
