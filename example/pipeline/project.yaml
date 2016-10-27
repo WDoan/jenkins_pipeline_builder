@@ -27,6 +27,10 @@
     promotions:
         - '01. Stage Promotion'
 <<<<<<< HEAD
+<<<<<<< HEAD
         - '02. Prod/SCA Promotion'
 =======
 >>>>>>> ff476a8cc81b701bb30a6759c1c5ab3a02343344
+=======
+        - '02. Prod/SCA Promotion'
+>>>>>>> 3b63093404ed2eeccf086a2642b0899e30ffea0a

@@ -24,6 +24,12 @@ module JenkinsPipelineBuilder
       [true, nil]
     end
 
+    # must be called after updating the job's config
+    def create_promotion_process(process_name, config)
+      # TODO
+      JenkinsPipelineBuilder.client.job.init_promotion_process(process_name, config)
+    end
+
     def to_xml
       raise 'Job name is not specified' unless name
 
@@ -50,7 +56,7 @@ module JenkinsPipelineBuilder
     end
 
     def job_methods
-      %w(job_dsl multi_project build_flow free_style pull_request_generator)
+      %w(job_dsl multi_project build_flow free_style pull_request_generator promotion)
     end
 
     def local_output(xml)
