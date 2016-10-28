@@ -4,10 +4,10 @@
     job_type: promotion
     block_when_downstream_building: false # unless defined? false
     block_when_upstream_building: false # unless defined? false
-    icon: 'Gold star' # || 'Silver star'
+    promotion_icon: 'silver' # defaults to gold, silver white blue green orange purple red
     promotion_conditions: # follow parameters
       - manual:
-          users: 'authorized' # || ''
+          users: 'authenticated' # || ''
       - self_promotion:
           even_if_unstable: true # unless defined? false
       - parameterized_self_promotion:

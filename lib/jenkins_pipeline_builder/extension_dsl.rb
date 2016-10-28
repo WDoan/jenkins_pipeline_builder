@@ -6,7 +6,7 @@ JenkinsPipelineBuilder.registry.entries.each do |type, path|
 
     JenkinsPipelineBuilder.registry.register([:job, type], set)
     versions = set.extensions.map(&:min_version)
-    logger.info "Successfully registered #{set.name} for versions #{versions}" if set.announced
+    JenkinsPipelineBuilder.logger.info "Successfully registered #{set.name} for versions #{versions}" if set.announced
     true
   end
 end
